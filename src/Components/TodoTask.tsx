@@ -1,4 +1,4 @@
-import React,{FC} from 'react'
+import React from 'react'
 import { InterFaceTask } from '../InterFace'
 interface Props{
     todo:InterFaceTask;

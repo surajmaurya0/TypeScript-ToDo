@@ -6,27 +6,30 @@ const App: FC = () => {
   const [task, setTask] = useState<string>("");
   const [deadline, setDeadline] = useState<number>(0);
   const [todo, setTodo] = useState<InterFaceTask[]>([]);
-  const handleChange = (event: ChangeEvent<HTMLInputElement>):void => {
-    if(event.target.name === "task"){
-      setTask(event.target.value);
-    }else{
-      setDeadline(Number(event.target.value))
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.name === "task") {
+      setTask(event.target.value.trim());
+    } else {
+      setDeadline(Number(event.target.value));
     }
   };
-  const addTask = ():void=>{
-    const newTask = {taskName:task,deadLine:deadline}
-   setTodo([...todo,newTask])
-   setTask('')
-   setDeadline(0)
+  const addTask = (): void => {
+    if (!task) {
+      return alert('please input task')
+    }
+    const newTask = { taskName: task, deadLine: deadline };
+    setTodo([...todo, newTask]);
+    setTask("");
+    setDeadline(0);
+  };
 
-  }
-  console.log(todo)
-  const completeTask = (taskNameToDelete:string):void =>{
-    setTodo(todo.filter((task) =>{
-      return task.taskName != taskNameToDelete
-    }))
-
-  }
+  const completeTask = (taskNameToDelete: string): void => {
+    setTodo(
+      todo.filter((task) => {
+        return task.taskName !== taskNameToDelete;
+      })
+    );
+  };
   return (
     <div className="App">
       <div className="header">
@@ -38,8 +41,8 @@ const App: FC = () => {
             onChange={handleChange}
             value={task}
           />
-          <input 
-          value={deadline}
+          <input
+            value={deadline}
             type="number"
             placeholder="Deadline (in Days)..."
             name="deadline"
@@ -49,11 +52,13 @@ const App: FC = () => {
         <button onClick={addTask}>Add Task</button>
       </div>
       <div className="todoList">
-        {
-         todo.length  ? todo.map((todo:InterFaceTask,key:number)=>{
-            return <TodoTask key={key} todo={todo}  completeTask={completeTask}/>
-          }) :''
-        }
+        {todo.length
+          ? todo.map((todo: InterFaceTask, key: number) => {
+              return (
+                <TodoTask key={key} todo={todo} completeTask={completeTask} />
+              );
+            })
+          : ""}
       </div>
     </div>
   );
