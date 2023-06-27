@@ -21,6 +21,12 @@ const App: FC = () => {
 
   }
   console.log(todo)
+  const completeTask = (taskNameToDelete:string):void =>{
+    setTodo(todo.filter((task) =>{
+      return task.taskName != taskNameToDelete
+    }))
+
+  }
   return (
     <div className="App">
       <div className="header">
@@ -43,7 +49,11 @@ const App: FC = () => {
         <button onClick={addTask}>Add Task</button>
       </div>
       <div className="todoList">
-        <TodoTask/>
+        {
+         todo.length  ? todo.map((todo:InterFaceTask,key:number)=>{
+            return <TodoTask key={key} todo={todo}  completeTask={completeTask}/>
+          }) :''
+        }
       </div>
     </div>
   );
